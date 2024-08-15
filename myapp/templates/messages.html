@@ -1,0 +1,10 @@
+{% if messages %}
+{% for m in  messages%}
+<div id="message-wrapper">
+    <div id="message-{{m.tags}}" class="message">
+        <p>{{m}}</p>
+        <p id="close-message">❌</p>
+    </div>
+</div>
+{% endfor %}
+{% endif %}

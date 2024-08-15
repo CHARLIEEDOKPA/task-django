@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% include "messages.html" %}
+
+<div id="login">
+    <h1>Login</h1>
+    <form method="POST">
+        <div id="login-register-wrapper">
+            {% csrf_token %}
+            {{form.as_p}}
+            <a href="{% url "register" %}">No tiene cuenta, crea ahora</a>
+            <button>Login</button>
+        </div>
+    </form>
+    </div>
+{% endblock content %}
