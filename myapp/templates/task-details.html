@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% include "nav.html" %}
+
+<div id="tarea-details-wrapper">
+    <div id="tarea-details" class="completed-{{tarea.completed}}">
+        <h1>{{tarea.title}}</h1>
+        <p>Created at: {{tarea.created_at}}</p>
+        <p>Ends: {{tarea.due_date}}</p>
+        <p>Priority: {{tarea.priority}}</p>
+        {% if tarea.completed %}
+        <p>Completed: Yes</p>
+        {% else %}
+        <p>Completed: No</p>
+        {% endif %}
+        <p>Description: {{tarea.description}}</p>
+        
+    </div>
+</div>
+
+
+
+{% endblock content %}

@@ -10,5 +10,5 @@ class Tarea(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     due_date = models.DateTimeField()
     priority = models.CharField(max_length=50)
-    completed = models.BooleanField()
+    completed = models.BooleanField(default=False)
     user = models.ForeignKey(User,on_delete=models.CASCADE)

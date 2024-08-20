@@ -1,16 +1,21 @@
 from django.http import HttpRequest
-from django.shortcuts import redirect, render
-from django.contrib.auth import authenticate
+from django.shortcuts import redirect, render, get_object_or_404
+from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
-from django.contrib.auth.models import User
-import re
 
 
-from myapp.forms import LoginForm, RegisterForm
+from myapp.defs import create_user,check_date_and_time, is_logged, is_tarea_owner, return_date_time_from_post, toggle_complete_task
+from myapp.forms import CreateTaskForm, LoginForm, RegisterForm
+from myapp.models import Tarea
+import datetime
 
 # Create your views here.
 
-def login(request:HttpRequest):
+
+def redirect_dashboard(request:HttpRequest):
+    return redirect("dashboard")
+
+def login_view(request:HttpRequest):
     if request.method == "GET":
         return render(request,"login.html",{
             "form":LoginForm()
@@ -21,10 +26,11 @@ def login(request:HttpRequest):
         user = authenticate(username=correo,password=password)
         
         if user is not None:
-            return redirect('/tasks/login')
+            login(request,user)
+            return redirect("dashboard")
         else:
             messages.error(request,"Las credenciales están incorrectas")
-            return redirect('/tasks/login')
+            return redirect('login')
         
         
 def register(request:HttpRequest):
@@ -36,30 +42,107 @@ def register(request:HttpRequest):
         created_user,message = create_user(request.POST)
         if created_user is None:
             messages.error(request,message)
-            return redirect("/tasks/register")
-        return redirect("/tasks/login")
+            return redirect("register")
+        return redirect("login")
     
     
-def create_user(data):
-    password = data['password']
-    username = data['username']  
-    if user_exists(username):
-        return None, "El usuario que has puesto ya existe"
-    if not password_correct_formated(password):
-        return None,"La contraseña tiene que tener como mínimo 6 carácteres"
+def dashboard(request:HttpRequest):
+    if not is_logged(request): 
+        return redirect("login")
+    
+    user_id = request.user.id
+    tareas = Tarea.objects.all().filter(user_id = user_id)
+    
         
-    user = User.objects.create_user(username,data['email'],password)
-    user.first_name = data['first_name']
-    user.last_name = data['last_name']
-    user.save()
+    return render(request,"dashboard.html",{
+        "tareas": tareas,
+        "todays_datetime": datetime.datetime.today(),
+        "todays_date":datetime.date.today()
+    })
+        
+        
     
-    return user,"El usuario ha sido creado correctamnete"
-    
-    
+def logout_view(request:HttpRequest):
+    logout(request)
+    return redirect("login")
 
-def password_correct_formated(password):
-    pattern = r"[0-9a-zA-z]{6}"
-    return re.match(pattern,password) is not None
+def create_task_view(request:HttpRequest):
+    if not is_logged(request):
+        return redirect("login")
 
-def user_exists(usermame):
-    return User.objects.get(username=usermame) is not None
+    if request.method == "GET":
+        return render(request,"create_task.html",{
+            "form": CreateTaskForm()
+        })
+    else:
+        
+        data = request.POST
+        user = request.user
+        
+        due_date = data["due_date"]
+        due_time = data["due_time"]
+        
+        datetime_user = return_date_time_from_post(due_date, due_time)
+        correct_datetime = check_date_and_time(datetime_user)
+        
+        if correct_datetime:
+            Tarea.objects.create(title=data["title"],description=data["description"],user_id=user.id,priority=data["priority"]
+                                 ,due_date=datetime_user)
+            return redirect("dashboard")
+            
+        messages.error(request,"La fecha que pusiste ya ha pasado")   
+        return redirect("create_task")
+    
+    
+def task_details_view(request:HttpRequest, id):
+    
+    if not is_logged(request):
+        return redirect("login")
+    
+    tarea = get_object_or_404(Tarea,id=id)
+    
+    user = request.user
+    
+    if tarea.user != user:
+        return redirect("dashboard")
+    
+    return render(request,"task-details.html",{
+        "tarea":tarea
+    })
+    
+def complete_task_view(request:HttpRequest, id):
+    if not is_logged(request):
+        return redirect("login")
+        
+    if request.method == "POST":
+        toggle_complete_task(request,id,completed=True)  
+    return redirect("dashboard")
+
+
+def not_complete_task_view(request:HttpRequest,id):
+    
+    if not is_logged(request):
+       return redirect("login")
+    
+    if request.method == "POST":
+        toggle_complete_task(request,id)       
+    return redirect("dashboard")
+
+
+def delete_task_view(request:HttpRequest,id):
+    
+    if not is_logged(request):
+       return redirect("login")
+    
+    tarea = get_object_or_404(Tarea, id=id)
+    
+    if not is_tarea_owner(tarea,request):
+         return redirect("dashboard")
+    
+    if request.method == "GET":
+        return render(request,"confirm-delete.html", {
+            "tarea":tarea
+        })
+    else:
+        tarea.delete()
+        return redirect("dashboard")

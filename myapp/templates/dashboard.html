@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block content %}
+{% include "nav.html" %}
+<h1>Dashboard</h1>
+<div id="dashboard">
+    <div id="completed">
+        <h2>Tareas completadas</h2>
+        <div class="tasks">
+            {% for t in  tareas%}
+                {% if t.completed %}
+                <div class="task completed">
+                    <h2>{{t.title}}</h2>
+                    <h3>Priority: {{t.priority}}</h3>
+                    <h3>Due date: {{t.due_date}}</h3>
+                    <p>{{t.description}}</p>
+                    <div class="buttons-task">
+                         <form method="POST" action="/tasks/not-completed/{{t.id}}">{% csrf_token %}<a href=""><button>Not Completed ⛔</button></a></form>
+                        <a href="/tasks/{{t.id}}"><button>Details 📑</button></a>
+                        <a href="/tasks/delete/{{t.id}}"><button>Delete ❌</button></a>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div id="pending">
+        <h2>Tareas pendientes</h2>
+        <div class="tasks">
+            {% for t in  tareas%}
+                {% if not t.completed%}
+                <div class="task not-completed">
+                    <h2>{{t.title}}</h2>
+                    <h3>Priority: {{t.priority}}</h3>
+                    <h3>Due date: {{t.due_date}}</h3>
+                    <p>{{t.description}}</p>
+                    <div class="buttons-task">
+                        <form method="POST" action="/tasks/completed/{{t.id}}">{% csrf_token %}<a href=""><button>Completed ✅</button></a></form>
+                        <a href="/tasks/{{t.id}}"><button>Details 📑</button></a>
+                        <a href="/tasks/delete/{{t.id}}"><button>Delete ❌</button></a>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div id="finishing-soon">
+        <h2>Tareas apunto de terminarse</h2>
+        <div class="tasks">
+            {% for t in  tareas%}
+                {% if not t.completed and t.due_date.date == todays_date %}
+                <div class="task almost-finishing">
+                    <h2>{{t.title}}</h2>
+                    <h3>Priority: {{t.priority}}</h3>
+                    <h3>Due date: {{t.due_date}}</h3>
+                    <p>{{t.description}}</p>
+                    <div class="buttons-task">
+                        <form method="POST" action="/tasks/completed/{{t.id}}">{% csrf_token %}<a href=""><button>Completed ✅</button></a></form>
+                        <a href="/tasks/{{t.id}}"><button>Details 📑</button></a>
+                        <a href="/tasks/delete/{{t.id}}"><button>Delete ❌</button></a>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

@@ -17,7 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+from myapp.views import redirect_dashboard
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('tasks/',include("myapp.urls"))
+    path('tasks/',include("myapp.urls")),
+    path("",redirect_dashboard)
 ]

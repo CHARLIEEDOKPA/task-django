@@ -1,6 +1,7 @@
 
 body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 0 auto;
 }
 
 
@@ -9,14 +10,36 @@ nav {
     display: flex;
     justify-content: center;
     font-size: 30px;
-    color: rgb(240, 107, 107);
+    color: white;
+    background-color: rgb(240, 107, 107);
+}
+
+#dashboard {
+    padding: 20px;
+}
+
+li {
+    display: inline-block;
+    margin-right: 25px;
+}
+
+
+li a {
+    text-decoration: none;
+    color: white
 }
 
 h1 {
     text-align: center;
 }
 
-form {
+.task form, #delete-tarea-buttons form {
+    width: auto; /* Quita el ancho predeterminado */
+    max-width: none; /* Asegura que no tenga un ancho máximo */
+    min-width: 0; /* Asegura que no tenga un ancho mínimo */
+}
+
+#register form, #login form,#create-task form {
 display: flex;
 justify-content: center;
 font-size: 25px;
@@ -24,6 +47,83 @@ font-size: 25px;
 
 input {
     padding: 5px;
+}
+
+#create-task form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#create-task-content {
+    background-color: rgb(240, 107, 107);;
+    border-radius: 10px;
+    width: 700px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+#create-task-content-wrapper{
+    display: flex;
+    justify-content: center;
+}
+
+
+#create-task button {
+    padding: 10px;
+    border: 0;
+    background-color: #FFFF;
+    border-radius: 10px;
+    font-size: 20px;
+    color: rgb(240, 107, 107);
+    transition: 300ms;
+}
+
+#create-task button:hover {
+    transform: scale(0.9);
+    cursor: pointer;
+}
+
+.task {
+    padding: 20px;
+    border: 3px solid;
+    border-radius: 10px;
+    width: 500px;
+}
+
+.tasks {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+}
+
+.not-completed {
+    background-color: rgb(232, 56, 56);
+}
+
+.completed {
+    background-color: rgb(93, 233, 93);
+}
+
+.buttons-task {
+    display: flex;
+}
+
+.buttons-task button {
+    padding: 5px;
+    font-size: 18px;
+    border-radius: 7px;
+    transition: 300ms;
+    margin-right: 10px;
+}
+
+.buttons-task button:hover {
+    cursor: pointer;
+    transform: scale(0.9);
+}
+
+#create-task {
+    display: flex;
+    justify-content: center;
 }
 
 #login-register-wrapper button {
@@ -59,10 +159,77 @@ input {
     justify-content: center;
 }
 
+
+
+
+#tarea-details{
+    width: 800px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.completed-False {
+    background-color: rgb(240, 107, 107);
+}
+
+.completed-True {
+    background-color: rgb(116, 222, 116);
+}
+
+#tarea-details-wrapper {
+    padding: 70px;
+    display: flex;
+    justify-content: center;
+    font-size: 30px;
+}
+
 form a {
     font-size: 18px;
 }
 
 #close-message:hover {
     cursor: pointer;
+}
+
+#delete-tarea {
+    border: 1px solid;
+    width: 400px;
+}
+
+#delete-tarea p {
+    text-align: center;
+}
+
+#delete-tarea-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+#delete-tarea {
+    padding: 10px;
+}
+
+#delete-tarea-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+#delete-tarea-buttons button{
+    background-color: rgb(240, 107, 107);;
+    padding: 10px;
+    margin-left: 7px;
+    border-radius: 10px;
+    border: 0;
+    transition: 300ms;
+}
+
+
+#delete-tarea-buttons button:hover {
+    transform: scale(0.9);
+    cursor: pointer;
+}
+
+.almost-finishing {
+    background-color: rgb(218, 181, 49);
 }

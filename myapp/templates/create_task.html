@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+{% include "nav.html" %}
+<div id="create-task-content-wrapper">
+    {% include "messages.html" %}
+    <div id="create-task-content">
+        <h1>Creating task for {{user.username}}</h1>
+        <div id="create-task">
+            <form method="POST">
+                {% csrf_token %}
+                {{form.as_p}}
+                <p>
+                    <label for="">Priority</label>
+                    <select name="priority" id="">
+                        <option value="low">Bajo</option>
+                        <option value="medium">Medio</option>
+                        <option value="high">Alto</option>
+                    </select>
+                </p>
+                
+                <button>Create Task</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

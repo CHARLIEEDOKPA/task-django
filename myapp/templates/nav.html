@@ -1,5 +1,8 @@
 <nav>
-    <ul>Dashboard</ul>
-    <ul>Create Task</ul>
-    <ul>Task List</ul>
+    <ul>
+        <li><a href="{% url "dashboard" %}">Dashboard</a></li>
+        <li><a href="{% url "create_task" %}">Create Task</a></li>
+        <li><a href="">Task List</a></li>
+        <li><a href="{% url "logout" %}">Logout</a></li>
+    </ul>
 </nav>

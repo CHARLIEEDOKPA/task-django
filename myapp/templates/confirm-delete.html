@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% include "nav.html" %}
+<div id="delete-tarea-wrapper">
+    <div id="delete-tarea">
+        <h1>Borrar tarea</h1>
+        <p>Estas seguro de querer borrar la tarea llamado {{tarea.title}}</p>
+        <div id="delete-tarea-buttons">
+            <form method="POST">{% csrf_token %}<button>Yes</button></form>
+            <button id="go-back">No</button>
+        </div>
+    </div>
+    
+</div>
+
+
+{% endblock content %}

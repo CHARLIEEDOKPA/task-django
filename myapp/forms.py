@@ -1,3 +1,4 @@
+import datetime
 from django import forms
 
 class LoginForm(forms.Form):
@@ -12,3 +13,11 @@ class RegisterForm(forms.Form):
     email = forms.EmailField()
     first_name = forms.CharField(max_length=150)
     last_name = forms.CharField(max_length=100)
+    
+class CreateTaskForm(forms.Form):
+    title = forms.CharField(max_length=200)
+    description = forms.CharField(widget=forms.TextInput())
+    due_time = forms.TimeField( initial=datetime.datetime.today(),
+        widget=forms.TimeInput(attrs={'type': 'time'}))
+    due_date = forms.DateField(initial=datetime.datetime.today(), widget=forms.DateInput(attrs={'type': 'date'}))
+    
