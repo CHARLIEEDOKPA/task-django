@@ -1,15 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
 {% include "nav.html" %}
+{% include "messages.html" %}
 <div id="create-task-content-wrapper">
-    {% include "messages.html" %}
+    
     <div id="create-task-content">
-        <h1>Creating task for {{user.username}}</h1>
+        <h1>Editing task {{title}}</h1>
         <div id="create-task">
             <form method="POST">
                 {% csrf_token %}
-                {{form.as_p}}          
-                <button>Create Task</button>
+                {{form.as_p}}        
+                <button>Edit Task</button>
             </form>
         </div>
     </div>

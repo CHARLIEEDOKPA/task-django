@@ -3,6 +3,21 @@
 {% include "nav.html" %}
 <h1>Dashboard</h1>
 <div id="dashboard">
+    <div id="filter">
+       
+        <div id="filter-wrapper">
+            <h4>Filter by priority:</h4>
+            <form method="GET">
+                <select name="priority" id="">
+                    <option value="high">Alto</option>
+                    <option value="medium">Medio</option>
+                    <option value="low">Bajo</option>
+                    <option value="none">No filtrar</option>
+                </select>
+                <button>Select</button>
+            </form>
+        </div>
+    </div>
     <div id="completed">
         <h2>Tareas completadas</h2>
         <div class="tasks">

@@ -4,7 +4,7 @@ window.addEventListener("DOMContentLoaded",() => {
     let goBack = document.getElementById("go-back")
 
     if(closeMessage) {
-        closeMessage.getElementById("close-message").addEventListener("click",() => {
+        closeMessage.addEventListener("click",() => {
             let message = document.querySelector(".message")
             message.remove()
         })

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+{% include "nav.html" %}
+<h1>Tasks List</h1>
+
+
+<div id="task-list">
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Created at</th>
+                <th>Due date</th>
+                <th>Completed</th>
+                <th>Details</th>
+                <th>Edit</th>
+                <th>Not/Complete</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in tareas %}
+            <tr class="completed-{{t.completed}}">
+                <td>{{t.title}}</td>
+                <td>{{t.created_at}}</td>
+                <td>{{t.due_date}}</td>
+                {% if t.completed %}
+                <td>Yes</td>
+                {% else %}
+                <td>No</td>
+                {% endif %}
+                <td><a href="/tasks/{{t.id}}">📑</a></td>
+                <td><a href="/tasks/edit/{{t.id}}">📝</a></td>
+                {% if not t.completed %}
+                <td><form method="POST" action="/tasks/completed/{{t.id}}">{% csrf_token %}<button>✅</button><input type="text" hidden name="task_list" value="true"></form></td>
+                {% else %}
+                <td><form method="POST" action="/tasks/not-completed/{{t.id}}">{% csrf_token %}<button>⛔</button><input type="text" hidden name="task_list" value="true"></form></td>
+                {% endif %}
+                <td>❌</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}
