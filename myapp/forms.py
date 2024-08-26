@@ -19,7 +19,7 @@ class CreateTaskForm(forms.Form):
     title = forms.CharField(max_length=200)
     description = forms.CharField(widget=forms.TextInput())
     due_time = forms.TimeField( initial=datetime.datetime.today(),
-    widget=forms.TimeInput(attrs={'type': 'time'}))
+    widget=forms.TimeInput(attrs={'type': 'time'},format='%H:%M'))
     due_date = forms.DateField(initial=datetime.datetime.today(), widget=forms.DateInput(attrs={'type': 'date'}))
     priority = forms.ChoiceField(choices=CHOICES)
     

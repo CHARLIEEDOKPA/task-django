@@ -164,6 +164,11 @@ input {
     border: 2px solid red;
 }
 
+#message-success {
+    background-color: rgb(107, 240, 123);
+    border: 2px solid rgb(11, 103, 18);
+}
+
 .message {
     display: flex;
     justify-content: center;

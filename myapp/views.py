@@ -10,7 +10,7 @@ import datetime
 
 # Create your views here.
 
-#Vista para rederigir al dashboard
+#Vista para redirigir al dashboard
 def redirect_dashboard(request:HttpRequest):
     return redirect("dashboard")
 
@@ -44,6 +44,7 @@ def register(request:HttpRequest):
         if created_user is None:
             messages.error(request,message)
             return redirect("register")
+        messages.success(request,"El usuario ha creado correctamente")
         return redirect("login")
     
 
@@ -53,11 +54,10 @@ def dashboard(request:HttpRequest):
         return redirect("login")
     
     user_id = request.user.id
-    tareas = Tarea.objects.all().filter(user_id = user_id)
+    tareas = Tarea.objects.all().filter(user_id = user_id).select_related('user')
     priority = request.GET.get("priority")
     
     if priority != None and priority != "none":
-        print("Entra")
         tareas = tareas.filter(priority = priority)
     
         
@@ -98,6 +98,7 @@ def create_task_view(request:HttpRequest):
         if correct_datetime:
             Tarea.objects.create(title=data["title"],description=data["description"],user_id=user.id,priority=data["priority"]
                                  ,due_date=datetime_user)
+            
             return redirect("dashboard")
             
         messages.error(request,"La fecha que pusiste ya ha pasado")   
@@ -161,7 +162,7 @@ def task_list_view(request:HttpRequest):
        return redirect("login")
    
     user_id = request.user.id
-    tareas = Tarea.objects.all().filter(user_id = user_id)
+    tareas = Tarea.objects.all().filter(user_id = user_id).select_related('user')
     
     if len(tareas) == 0:
         return redirect("dashboard")
