@@ -36,7 +36,7 @@
                 {% else %}
                 <td><form method="POST" action="/tasks/not-completed/{{t.id}}">{% csrf_token %}<button>⛔</button><input type="text" hidden name="task_list" value="true"></form></td>
                 {% endif %}
-                <td>❌</td>
+                <td><a href="/tasks/delete/{{t.id}}">❌</a></td>
             </tr>
             {% endfor %}
         </tbody>

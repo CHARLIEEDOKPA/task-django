@@ -301,6 +301,7 @@ td:last-child {
 
 td a {
     text-decoration: none;
+    transition: 300ms;
 }
 
 td form button {
@@ -312,8 +313,13 @@ td form button {
     font: inherit;
     border-radius: 0;
     appearance: none;
+    transition: 300ms;
 }
 
+td:hover a , td form button:hover {
+    transform: scale(0.8);
+    cursor: pointer;
+}
 
 #filter-wrapper * {
     display: inline-block;

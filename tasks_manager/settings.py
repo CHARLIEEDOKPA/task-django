@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from os import getenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-ist8i09@5s5d329l#usyqxie%r$%+k44y!r3$s3wb0d^h%sx7e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = getenv("DJANGO_DEBUG","False") == "True"
 
 ALLOWED_HOSTS = []
 
@@ -85,7 +86,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.mysql",
         'NAME': 'tasks',
         "USER": "root",
-        "HOST":"db",
+        "HOST":"localhost",
         "PORT":"3306",
         "PASSWORD":"12345678"
     }

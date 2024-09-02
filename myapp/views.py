@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 
-from myapp.defs import create_user,check_date_and_time, is_logged, is_tarea_owner, return_date_time_from_post, toggle_complete_task, complete_a_task, collect_date_time_by_post, edit_tarea
+from myapp.defs import create_user,check_date_and_time, is_logged, is_tarea_owner, return_date_time_from_post, complete_a_task, collect_date_time_by_post, edit_tarea
 from myapp.forms import CreateTaskForm, LoginForm, RegisterForm
 from myapp.models import Tarea
 import datetime
